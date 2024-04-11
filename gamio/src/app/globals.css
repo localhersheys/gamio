@@ -40,3 +40,7 @@ body {
     -webkit-text-stroke: 4px black;
   }
 }
+
+body {
+  overflow: hidden;
+}
