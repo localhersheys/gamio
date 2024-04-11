@@ -1,8 +1,32 @@
+"use client";
+import React, { useEffect, useRef } from "react";
+
 const Home = () => {
+  const svgRef = useRef(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    const rect = svg.getBoundingClientRect();
+
+    const handleMouseMove = (e) => {
+      const dx = e.clientX - rect.left - rect.width / 2;
+      const dy = e.clientY - rect.top - rect.height / 2;
+      const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+
+      svg.style.transform = `rotate(${angle+94}deg)`;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
   return (
     <main className="bg-black text-7xl font-bold text-orange-500 p-20 break-words h-[100vh] w-[100vw] flex justify-center items-center">
       <div className="flex justify-center items-center h-[20vh] w-[20vh]">
         <svg
+          ref={svgRef}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 -0.5 32 32"
           shape-rendering="crispEdges"
