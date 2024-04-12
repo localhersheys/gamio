@@ -3,13 +3,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 const Home = () => {
   const svgRef = useRef(null);
-  const [rotation, setRotation] = useState(0); // Add this line at the beginning of your component
+  const [rotation, setRotation] = useState(0); 
 
-  // Update the rotation state whenever the SVG rotates
-  // You need to replace this with your actual rotation logic
-  window.addEventListener("rotate", (event) => {
-    setRotation(event.detail.rotation);
-  });
+  useEffect(() => {
+    const handleRotate = (event) => {
+      setRotation(event.detail.rotation);
+    };
+  
+    window.addEventListener("rotate", handleRotate);
+  
+    return () => {
+      window.removeEventListener("rotate", handleRotate);
+    };
+  }, []);
   useEffect(() => {
     const svg = svgRef.current;
     const rect = svg.getBoundingClientRect();
@@ -34,18 +40,20 @@ const Home = () => {
       const svg = svgRef.current;
       const rect = svg.getBoundingClientRect();
 
-      // Parse the rotation angle from the transform style
+      
       const transform = window
         .getComputedStyle(svg)
         .getPropertyValue("transform");
 
-      // Extract the a and b values from the transform matrix
+      
       const values = transform.split("(")[1].split(")")[0].split(",");
-      const a = values[0];
-      const b = values[1];
+      
+      //for pure rotation transform matrix: matrix(cosθ, sinθ, -sinθ, cosθ, 0, 0)
+      const a = values[0]; 
+      const b = values[1]; 
 
-      // Calculate the rotation angle
-      const angle = Math.atan2(b, a) * (180 / Math.PI) - 94;
+      
+      const angle = Math.atan2(b, a) * (180 / Math.PI) - 94; //we add 94 for adjustment
 
       const direction = {
         x: Math.cos((angle * Math.PI) / 180),
@@ -54,35 +62,35 @@ const Home = () => {
 
       const bullet = document.createElement("div");
       bullet.style.position = "absolute";
-      bullet.style.left = `${rect.left + rect.width / 2 }px`; // Starting x-coordinate
-      bullet.style.top = `${rect.top + rect.height / 2}px`; // Starting y-coordinate
-      bullet.style.width = "10px"; // Width
-      bullet.style.height = "10px"; // Height
-      bullet.style.backgroundColor = "white"; // Color
-      document.body.appendChild(bullet); // Append to body or main container
+      bullet.style.left = `${rect.left + rect.width / 2 }px`; 
+      bullet.style.top = `${rect.top + rect.height / 2}px`; 
+      bullet.style.width = "10px"; 
+      bullet.style.height = "10px"; 
+      bullet.style.backgroundColor = "white"; 
+      document.body.appendChild(bullet); 
 
       const animateBullet = () => {
         const currentY = Number(bullet.style.top.replace("px", ""));
         const currentX = Number(bullet.style.left.replace("px", ""));
         if (
-          currentY + bullet.offsetHeight > window.innerHeight || // Hits bottom edge
-          currentY < 0 || // Hits top edge
-          currentX + bullet.offsetWidth > window.innerWidth || // Hits right edge
-          currentX < 0 // Hits left edge
+          currentY + bullet.offsetHeight > window.innerHeight || 
+          currentY < 0 || 
+          currentX + bullet.offsetWidth > window.innerWidth || 
+          currentX < 0 
         ) {
-          document.body.removeChild(bullet); // Remove bullet when it hits an edge
+          document.body.removeChild(bullet); 
         } else {
           bullet.style.left = `${currentX + direction.x * 18}px`;
           bullet.style.top = `${currentY + direction.y * 18}px`;
-          requestAnimationFrame(animateBullet); // Continue animating
+          requestAnimationFrame(animateBullet); 
         }
       };
 
       requestAnimationFrame(animateBullet);
-    }, 90); // Create a new bullet every 250ms
+    }, 90); 
 
     return () => {
-      clearInterval(bulletInterval); // Clear the interval when the component unmounts
+      clearInterval(bulletInterval); 
     };
   }, [rotation]);
 
@@ -95,9 +103,10 @@ const Home = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 -0.5 31 32"
           shape-rendering="crispEdges"
+          className="rotate-0"
         >
           <metadata>
-            Made with Pixels to Svg https://codepen.io/shshaw/pen/XbxvNj
+            Made with Pixels to Svg https:
           </metadata>
           <path
             stroke="#f97316"
