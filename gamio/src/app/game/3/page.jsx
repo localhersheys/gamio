@@ -85,6 +85,8 @@ const Home = () => {
       clearInterval(bulletInterval); // Clear the interval when the component unmounts
     };
   }, [rotation]);
+
+  
   return (
     <main className="bg-black text-7xl font-bold text-orange-500 p-20 break-words h-[100vh] w-[100vw] flex justify-center items-center overflow-hidden">
       <div className="flex justify-center items-center h-[20vh] w-[20vh]">
