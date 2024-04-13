@@ -18,6 +18,15 @@ const Home = () => {
   const [jitter2, setJitter2] = useState(false);
   const bgAudioRef = useRef(null);
   const overAudioRef = useRef(null);
+  const [winner, setWinner] = useState(null);
+
+  useEffect(() => {
+    if (health1 <= 0 && winner === null) {
+      setWinner('Orange');
+    } else if (health2 <= 0 && winner === null) {
+      setWinner('Purple');
+    }
+  }, [health1, health2, winner]);
 
   useEffect(() => {
     const bgAudio = new Audio("/audio/bgOg.mp3");
@@ -87,17 +96,17 @@ const Home = () => {
 
   const shootBullet1 = () => {
     if (health1 <= 0 || health2 <= 0) return;
-  
+
     // bulletSound.play();
     setBullets1((prevBullets) => [
       ...prevBullets,
       { top: top1 + 54, left: 150 },
     ]);
   };
-  
+
   const shootBullet2 = () => {
     if (health1 <= 0 || health2 <= 0) return;
-  
+
     // bulletSound.play();
     setBullets2((prevBullets) => [
       ...prevBullets,
@@ -176,7 +185,7 @@ const Home = () => {
             bullet.top <= svg2.top + svg2.height;
 
           if (isCollisionWithSvg2) {
-            setHealth2((prevHealth) => prevHealth - 2);
+            setHealth2((prevHealth) => prevHealth - 5);
             setJitter2(true);
             // hitSound.play();
             setTimeout(() => setJitter2(false), 200);
@@ -199,7 +208,7 @@ const Home = () => {
             bullet.top <= svg1.top + svg1.height;
 
           if (isCollisionWithSvg1) {
-            setHealth1((prevHealth) => prevHealth - 100);
+            setHealth1((prevHealth) => prevHealth - 5);
             setJitter1(true);
             // hitSound.play();
             setTimeout(() => setJitter1(false), 200);
@@ -249,8 +258,20 @@ const Home = () => {
         )}
       </div>
       {(health1 <= 0 || health2 <= 0) && (
-          <p className={`absolute h-[100vh] w-[100vw] z-10 text-7xl text-white font-press flex justify-center items-center ${styles.flashing}`}>Game Over</p>
-        )}
+        <div
+          className={`absolute h-[100vh] w-[100vw] z-10 flex flex-col justify-center items-center ${styles.flashing}`}
+        >
+          <p className="text-7xl text-white font-press text-center">
+            Game Over <br />
+            <span
+              className="text-2xl"
+              style={{ color: winner === "Orange" ? "orange" : "purple" }}
+            >
+              {winner === "Orange" ? "Orange wins" : "Purple wins"}
+            </span>
+          </p>
+        </div>
+      )}
       <div
         className={`absolute left-12  ${
           health1 > 0
