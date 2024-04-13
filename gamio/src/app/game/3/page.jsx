@@ -1,276 +1,127 @@
-"use client";
+"use client"
 import React, { useEffect, useRef, useState } from "react";
 
 const Home = () => {
-  const svgRef = useRef(null);
-  const [rotation, setRotation] = useState(0);
-  const [blocks, setBlocks] = useState([]);
-  const [health, setHealth] = useState(100);
-  const [score, setScore] = useState(0);
+  const [top1, setTop1] = useState(0);
+  const [top2, setTop2] = useState(0);
+  const [keysPressed, setKeysPressed] = useState({});
+  const svgRef1 = useRef(null);
+  const svgRef2 = useRef(null);
+  const [health1, setHealth1] = useState(100);
+  const [health2, setHealth2] = useState(100);
 
-  useEffect(() => {
-    const handleRotate = (event) => {
-      setRotation(event.detail.rotation);
-    };
-
-    window.addEventListener("rotate", handleRotate);
-
-    return () => {
-      window.removeEventListener("rotate", handleRotate);
-    };
-  }, []);
-
-  useEffect(() => {
-    const svg = svgRef.current;
-    const rect = svg.getBoundingClientRect();
-
-    const handleMouseMove = (e) => {
-      const dx = e.clientX - rect.left - rect.width / 2;
-      const dy = e.clientY - rect.top - rect.height / 2;
-      const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
-
-      svg.style.transform = `rotate(${angle + 94}deg)`;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    const generateBlock = () => {
-      const side = Math.floor(Math.random() * 4); // 0 = top, 1 = right, 2 = bottom, 3 = left
-      const size = Math.floor(Math.random() * 50) + 20; // Random size between 20 and 69
-      const health = Math.floor(Math.random() * 5) + 1; // Random health between 1 and 5
-
-      let x, y;
-      switch (side) {
-        case 0: // Top
-          x = Math.random() * window.innerWidth;
-          y = -size;
-          break;
-        case 1: // Right
-          x = window.innerWidth;
-          y = Math.random() * window.innerHeight;
-          break;
-        case 2: // Bottom
-          x = Math.random() * window.innerWidth;
-          y = window.innerHeight;
-          break;
-        case 3: // Left
-          x = -size;
-          y = Math.random() * window.innerHeight;
-          break;
-        default:
-          break;
+  const goUp = () => {
+    setTop1((prev) => {
+      if(prev > 10){
+       return prev - 10;
       }
-
-      setBlocks((prevBlocks) => [...prevBlocks, { x, y, size, health, side }]);
-    };
-
-    const blockInterval = setInterval(generateBlock, 1500);
-
-    return () => {
-      clearInterval(blockInterval);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleBulletCollision = () => {
-      if (typeof window !== "undefined") {
-        const bullets = document.querySelectorAll("div[role='bullet']");
-        bullets.forEach((bullet) => {
-          const bulletRect = bullet.getBoundingClientRect();
-          setBlocks((prevBlocks) =>
-            prevBlocks.map((block) => {
-              if (!block) return null; // Early return if block is null
-
-              const blockRect = {
-                x: block.x,
-                y: block.y,
-                width: block.size,
-                height: block.size,
-              };
-              if (
-                bulletRect.left >= blockRect.x &&
-                bulletRect.right <= blockRect.x + blockRect.width &&
-                bulletRect.top >= blockRect.y &&
-                bulletRect.bottom <= blockRect.y + blockRect.height
-              ) {
-                if (block.health > 1) {
-                  return { ...block, health: block.health - 1 };
-                } else {
-                  if (bullet.parentNode) {
-                    bullet.parentNode.removeChild(bullet); // Remove the bullet
-                  }
-                  setScore((prevScore) => prevScore + 10); // Increase score on block kill
-                  return null; // Remove the block
-                }
-              }
-              return block;
-            })
-          );
-        });
-        requestAnimationFrame(handleBulletCollision);
+      else{
+        return prev
       }
-    };
-    requestAnimationFrame(handleBulletCollision);
-  }, [blocks]);
+    
+    });
+  };
 
-  useEffect(() => {
-    const moveBlocks = () => {
-      setBlocks((prevBlocks) =>
-        prevBlocks
-          .filter((block) => block !== null) // Filter out null blocks
-          .map((block) => {
-            const svg = svgRef.current;
-            const rect = svg.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-  
-            const dx = centerX - block.x;
-            const dy = centerY - block.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-  
-            const speed = 2;
-            const movementX = (dx / distance) * speed;
-            const movementY = (dy / distance) * speed;
-  
-            const blockRect = {
-              x: block.x,
-              y: block.y,
-              width: block.size,
-              height: block.size,
-            };
-  
-            if (
-              rect.left >= blockRect.x &&
-              rect.right <= blockRect.x + blockRect.width &&
-              rect.top >= blockRect.y &&
-              rect.bottom <= blockRect.y + blockRect.height
-            ) {
-              setHealth((prevHealth) => prevHealth - 10);
-              return null; // Remove the block when it collides with the gun
-            }
-  
-            return {
-              ...block,
-              x: block.x + movementX,
-              y: block.y + movementY,
-            };
-          })
-      );
-  
-      requestAnimationFrame(moveBlocks);
-    };
-  
-    requestAnimationFrame(moveBlocks);
-  }, []);
+  const goDown = () => {
+    setTop1((prev) => {
+      const maxHeight = window.innerHeight - 120; 
+      if (prev < maxHeight) {
+        return prev + 10;
+      } else {
+        return prev;
+      }
+    });
+  };
 
-  const handleKeyDown = (e) => {
-    if (e.code === "Space") {
-      if (typeof window !== 'undefined') {
-        const svg = svgRef.current;
-        if (svg) {
-          const rect = svg.getBoundingClientRect();
-
-          const transform = window
-            .getComputedStyle(svg)
-            .getPropertyValue("transform");
-
-          const values = transform.split("(")[1].split(")")[0].split(",");
-
-          const a = values[0];
-          const b = values[1];
-
-          const angle = Math.atan2(b, a) * (180 / Math.PI) - 94;
-
-          const direction = {
-            x: Math.cos((angle * Math.PI) / 180),
-            y: Math.sin((angle * Math.PI) / 180),
-          };
-
-          const bullet = document.createElement("div");
-          bullet.setAttribute("role", "bullet");
-          bullet.style.position = "absolute";
-          bullet.style.left = `${rect.left + rect.width / 2}px`;
-          bullet.style.top = `${rect.top + rect.height / 2}px`;
-          bullet.style.width = "10px";
-          bullet.style.height = "10px";
-          bullet.style.backgroundColor = "white";
-          document.body.appendChild(bullet);
-
-          const animateBullet = () => {
-            const currentY = Number(bullet.style.top.replace("px", ""));
-            const currentX = Number(bullet.style.left.replace("px", ""));
-            if (
-              currentY + bullet.offsetHeight > window.innerHeight ||
-              currentY < 0 ||
-              currentX + bullet.offsetWidth > window.innerWidth ||
-              currentX < 0
-            ) {
-              document.body.removeChild(bullet);
-            } else {
-              bullet.style.left = `${currentX + direction.x * 18}px`;
-              bullet.style.top = `${currentY + direction.y * 18}px`;
-              requestAnimationFrame(animateBullet);
-            }
-          };
-
-          requestAnimationFrame(animateBullet);
+  const goUp2 = () => {
+      setTop2((prev) => {
+        if(prev > 10){
+         return prev - 10;
         }
+        else{
+          return prev
+        }
+      
+      });
+  };
+
+  const goDown2 = () => {
+    setTop2((prev) => {
+      const maxHeight = window.innerHeight - 120; 
+      if (prev < maxHeight) {
+        return prev + 10;
+      } else {
+        return prev;
       }
-    }
+    });
   };
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    const handleKeyDown = (event) => {
+      setKeysPressed((keysPressed) => ({ ...keysPressed, [event.key]: true }));
+    };
+
+    const handleKeyUp = (event) => {
+      setKeysPressed((keysPressed) => ({ ...keysPressed, [event.key]: false }));
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
-  return (
-    <main className="bg-black text-7xl font-bold text-orange-500 p-20 break-words h-[100vh] w-[100vw] flex justify-center items-center overflow-hidden relative">
-      <div className="flex justify-center items-center h-[20vh] w-[20vh] relative">
-        <svg
-          ref={svgRef}
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (keysPressed['ArrowUp']) goUp();
+      if (keysPressed['ArrowDown']) goDown();
+      if (keysPressed['w'] || keysPressed['W']) goUp2();
+      if (keysPressed['s'] || keysPressed['S']) goDown2();
+    }, 10); 
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [keysPressed]);
+  return ( 
+    <main className="relative">
+      <div className={`absolute top-96 right-12 h-[120px] w-[90px] -rotate-90`} style={{top: `${top1}px`}}>
+      <svg
+          ref={svgRef1}
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -0.5 31 32"
+          viewBox="0 -0.5 15 20"
           shapeRendering="crispEdges"
           className="rotate-0"
         >
           <metadata>Made with Pixels to Svg https:</metadata>
-          <path
-            stroke="#f97316"
-            d="M15 6h1M14 7h1M16 7h1M14 8h1M16 8h1M14 9h1M16 9h1M14 10h1M16 10h1M14 11h3M14 12h1M16 12h1M14 13h1M16 13h1M8 14h1M13 14h2M16 14h2M22 14h1M13 15h1M15 15h1M17 15h1M8 16h1M13 16h1M15 16h1M17 16h1M22 16h1M8 17h1M13 17h1M15 17h1M17 17h1M22 17h1M8 18h1M13 18h2M16 18h2M22 18h1M8 19h1M12 19h1M14 19h1M16 19h1M18 19h1M22 19h1M8 20h1M10 20h2M14 20h1M16 20h1M19 20h2M22 20h1M8 21h2M12 21h1M14 21h1M16 21h1M18 21h1M21 21h2M8 22h1M12 22h1M14 22h1M16 22h1M18 22h1M22 22h1M8 23h1M12 23h1M18 23h1M22 23h1M8 24h5M14 24h3M18 24h5M13 25h1M17 25h1"
-          />
+          <path stroke="#f97316" d="M7 0h1M6 1h1M8 1h1M6 2h1M8 2h1M6 3h1M8 3h1M6 4h1M8 4h1M6 5h3M6 6h1M8 6h1M6 7h1M8 7h1M0 8h1M5 8h2M8 8h2M14 8h1M5 9h1M7 9h1M9 9h1M0 10h1M5 10h1M7 10h1M9 10h1M14 10h1M0 11h1M5 11h1M7 11h1M9 11h1M14 11h1M0 12h1M5 12h2M8 12h2M14 12h1M0 13h1M4 13h1M6 13h1M8 13h1M10 13h1M14 13h1M0 14h1M2 14h2M6 14h1M8 14h1M11 14h2M14 14h1M0 15h2M4 15h1M6 15h1M8 15h1M10 15h1M13 15h2M0 16h1M4 16h1M6 16h1M8 16h1M10 16h1M14 16h1M0 17h1M4 17h1M10 17h1M14 17h1M0 18h5M6 18h3M10 18h5M5 19h1M9 19h1" />
         </svg>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gray-500">
-          <div
-            className="h-full bg-green-500"
-            style={{ width: `${health}%` }}
-          ></div>
-        </div>
-      </div>
-      <div className="absolute top-4 right-4 text-2xl">Score: {score}</div>
-      {blocks.map((block, index) => (
         <div
-          key={index}
-          style={{
-            position: "absolute",
-            left: `${block.x}px`,
-            top: `${block.y}px`,
-            width: `${block.size}px`,
-            height: `${block.size}px`,
-            backgroundColor: "white",
-          }}
-        ></div>
-      ))}
+            className="h-[2vh] bg-green-500 mt-2"
+            style={{ width: `${health1}%` }}
+          ></div>
+      </div>
+      <div className={`absolute left-12 h-[120px] w-[90px] rotate-90`} style={{top: `${top2}px`}}>
+      <svg
+          ref={svgRef2}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -0.5 15 20"
+          shapeRendering="crispEdges"
+          className="rotate-0"
+        >
+          <metadata>Made with Pixels to Svg https:</metadata>
+          <path stroke="rgb(167, 25, 223)" d="M7 0h1M6 1h1M8 1h1M6 2h1M8 2h1M6 3h1M8 3h1M6 4h1M8 4h1M6 5h3M6 6h1M8 6h1M6 7h1M8 7h1M0 8h1M5 8h2M8 8h2M14 8h1M5 9h1M7 9h1M9 9h1M0 10h1M5 10h1M7 10h1M9 10h1M14 10h1M0 11h1M5 11h1M7 11h1M9 11h1M14 11h1M0 12h1M5 12h2M8 12h2M14 12h1M0 13h1M4 13h1M6 13h1M8 13h1M10 13h1M14 13h1M0 14h1M2 14h2M6 14h1M8 14h1M11 14h2M14 14h1M0 15h2M4 15h1M6 15h1M8 15h1M10 15h1M13 15h2M0 16h1M4 16h1M6 16h1M8 16h1M10 16h1M14 16h1M0 17h1M4 17h1M10 17h1M14 17h1M0 18h5M6 18h3M10 18h5M5 19h1M9 19h1" />
+        </svg>
+        <div
+            className="h-[2vh] bg-green-500 mt-2"
+            style={{ width: `${health1}%` }}
+          ></div>
+      </div>
     </main>
-  );
- };
+   );
+}
  
- export default Home;
+export default Home;
