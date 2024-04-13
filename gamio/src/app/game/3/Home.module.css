@@ -1,11 +1,30 @@
 @keyframes jitter {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(-10px, 0); }
-    50% { transform: translate(0, 0); }
-    75% { transform: translate(10px, 0); }
-    100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-10px, 0);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  75% {
+    transform: translate(10px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.jitter {
+  animation: jitter 0.02s linear;
+}
+
+.flashing {
+    animation: flashing 1s infinite;
   }
   
-  .jitter {
-    animation: jitter 0.02s linear;
+  @keyframes flashing {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
