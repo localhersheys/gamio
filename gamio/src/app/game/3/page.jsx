@@ -22,13 +22,26 @@ const Home = () => {
 
   useEffect(() => {
     if (health1 <= 0 && winner === null) {
-      setWinner('Orange');
+      setWinner("Orange");
     } else if (health2 <= 0 && winner === null) {
-      setWinner('Purple');
+      setWinner("Purple");
     }
   }, [health1, health2, winner]);
 
+  const resetAudio = () => {
+    if (bgAudioRef.current) {
+      bgAudioRef.current.pause();
+      bgAudioRef.current.currentTime = 0;
+    }
+    if (overAudioRef.current) {
+      overAudioRef.current.pause();
+      overAudioRef.current.currentTime = 0;
+    }
+  };
+
   useEffect(() => {
+    resetAudio(); // Reset audio objects
+
     const bgAudio = new Audio("/audio/bgSpace.mp3");
     bgAudio.preload = "auto";
     bgAudio.loop = true;
@@ -40,8 +53,7 @@ const Home = () => {
     overAudioRef.current = overAudio;
 
     return () => {
-      bgAudio.pause();
-      bgAudio.currentTime = 0;
+      resetAudio(); // Reset audio objects on unmount
     };
   }, []);
 
@@ -49,6 +61,8 @@ const Home = () => {
     if (health1 <= 0 || health2 <= 0) {
       bgAudioRef.current.pause();
       overAudioRef.current.play();
+    } else {
+      bgAudioRef.current.play(); // Play background audio if the game is not over
     }
   }, [health1, health2]);
 
@@ -213,7 +227,6 @@ const Home = () => {
             // hitSound.play();
             setTimeout(() => setJitter1(false), 200);
           }
-
           return !isCollisionWithEdge && !isCollisionWithSvg1;
         })
       );
@@ -224,7 +237,15 @@ const Home = () => {
     };
   }, [keysPressed, top1, top2]);
   return (
-    <main className="relative h-[100vh] w-[100vw]" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/bgSpace.png)`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', filter: "contrast(140%) brightness(120%)" }}>
+    <main
+      className="relative h-[100vh] w-[100vw]"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/bgSpace.png)`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        filter: "contrast(140%) brightness(120%)",
+      }}
+    >
       <div
         className={`absolute top-96 right-12 ${
           health2 > 0
