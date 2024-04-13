@@ -21,7 +21,7 @@ const Home = () => {
             <div className="flex flex-wrap justify-between gap-20">
             <Card name="Game 1"  desc="lorem ipsum ksajfiofnsao ajs dfs go fwaefw eufnweuf" thumbnail={"/game.png"} id={1}></Card>
             <Card name="Game 2"  desc="lorem ipsum ksajfiofnsao ajs dfs go fwaefw eufnweuf" thumbnail={"/game.png"} id={2}></Card>
-            <Card name="Space Wars"  desc="classic arcade-style two-player game where you pilot spaceships and battle it out. Take control and shoot down your opponent's ship before they destroy yours. Simple but intense gameplay with easy controls - Player 1 uses W/S to move and Left Shift to fire. Player 2 uses Up/Down arrows to move and Right Shift to shoot. Last spaceship standing wins this cosmic duel! Test your reflexes in fast-paced, head-to-head combat for galactic supremacy." thumbnail={"/spaceShooter.jpeg"} id={3}></Card>
+            <Card name="Space Wars"  desc={`Controls:  \nPlayer 1 uses W/S to move and Left Shift to fire. \nPlayer 2 uses Up/Down arrows to move and Right Shift to shoot. \nclassic arcade-style two-player game where you pilot spaceships and battle it out. Take control and shoot down your opponent's ship before they destroy yours.  \nLast spaceship standing wins this cosmic duel! Test your reflexes in fast-paced, head-to-head combat for galactic supremacy.`} thumbnail={"/spaceShooter.jpeg"} id={3}></Card>
             </div>
         </main>
      );
