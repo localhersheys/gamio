@@ -29,7 +29,7 @@ const Home = () => {
   }, [health1, health2, winner]);
 
   useEffect(() => {
-    const bgAudio = new Audio("/audio/bgOg.mp3");
+    const bgAudio = new Audio("/audio/bgSpace.mp3");
     bgAudio.preload = "auto";
     bgAudio.loop = true;
     bgAudioRef.current = bgAudio;
@@ -161,14 +161,14 @@ const Home = () => {
       setBullets1((prevBullets) =>
         prevBullets.map((bullet) => ({
           ...bullet,
-          left: bullet.left + 10,
+          left: bullet.left + 15,
           // top: top1 + 56,
         }))
       );
       setBullets2((prevBullets) =>
         prevBullets.map((bullet) => ({
           ...bullet,
-          left: bullet.left - 10,
+          left: bullet.left - 15,
           // top: top2 + 56,
         }))
       );
@@ -224,7 +224,7 @@ const Home = () => {
     };
   }, [keysPressed, top1, top2]);
   return (
-    <main className="relative">
+    <main className="relative h-[100vh] w-[100vw]" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/bgSpace.png)`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', filter: "contrast(140%) brightness(120%)" }}>
       <div
         className={`absolute top-96 right-12 ${
           health2 > 0
@@ -292,7 +292,7 @@ const Home = () => {
               className={jitter1 ? styles.jitter : ""}
             >
               <path
-                stroke="rgb(167, 25, 223)"
+                stroke="rgb(201, 44, 236)"
                 d="M7 0h1M6 1h1M8 1h1M6 2h1M8 2h1M6 3h1M8 3h1M6 4h1M8 4h1M6 5h3M6 6h1M8 6h1M6 7h1M8 7h1M0 8h1M5 8h2M8 8h2M14 8h1M5 9h1M7 9h1M9 9h1M0 10h1M5 10h1M7 10h1M9 10h1M14 10h1M0 11h1M5 11h1M7 11h1M9 11h1M14 11h1M0 12h1M5 12h2M8 12h2M14 12h1M0 13h1M4 13h1M6 13h1M8 13h1M10 13h1M14 13h1M0 14h1M2 14h2M6 14h1M8 14h1M11 14h2M14 14h1M0 15h2M4 15h1M6 15h1M8 15h1M10 15h1M13 15h2M0 16h1M4 16h1M6 16h1M8 16h1M10 16h1M14 16h1M0 17h1M4 17h1M10 17h1M14 17h1M0 18h5M6 18h3M10 18h5M5 19h1M9 19h1"
               />
             </svg>
