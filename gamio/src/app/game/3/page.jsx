@@ -128,6 +128,19 @@ const Home = () => {
     ]);
   };
 
+  const reset = ()=>{
+    setHealth1(100);
+    setHealth2(100);
+    setTop1(0);
+    setTop2(0);
+    setBullets1([]);
+    setBullets2([]);
+    setWinner(null);
+    overAudioRef.current.currentTime = 0;
+    bgAudioRef.current.currentTime = 0;
+    bgAudioRef.current.play();
+  }
+
   useEffect(() => {
     if (health1 <= 0 || health2 <= 0) return;
     const handleKeyDown = (event) => {
@@ -280,9 +293,9 @@ const Home = () => {
       </div>
       {(health1 <= 0 || health2 <= 0) && (
         <div
-          className={`absolute h-[100vh] w-[100vw] z-10 flex flex-col justify-center items-center ${styles.flashing}`}
+          className={`absolute h-[100vh] w-[100vw] z-10 flex flex-col justify-center items-center gap-6`}
         >
-          <p className="text-7xl text-white font-press text-center">
+          <p className={`text-7xl text-white font-press text-center ${styles.flashing}`}>
             Game Over <br />
             <span
               className="text-2xl"
@@ -291,6 +304,7 @@ const Home = () => {
               {winner === "Orange" ? "Orange wins" : "Purple wins"}
             </span>
           </p>
+        <Image src="/reset.png" height={125} width={125} onClick={()=>reset()} className="hover:scale-105 active:scale-95"/>
         </div>
       )}
       <div
