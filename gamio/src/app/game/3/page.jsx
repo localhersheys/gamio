@@ -244,7 +244,7 @@ const Home = () => {
         })
       );
     }, 10);
-
+  
     return () => {
       clearInterval(interval);
     };
