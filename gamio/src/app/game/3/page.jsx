@@ -169,7 +169,7 @@ const Home = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
-
+    console.log(keysPressed);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
@@ -251,7 +251,7 @@ const Home = () => {
   }, [keysPressed, top1, top2]);
   return (
     <main
-      className="relative h-[100vh] w-[100vw]"
+      className="relative h-[100vh] w-[100vw] overflow-hidden"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/bgSpace.png)`,
         backgroundSize: "cover",
