@@ -144,24 +144,24 @@ const Home = () => {
     setKeysPressed({});
   }
 
-  useEffect(() => {
-    if (health1 <= 0 || health2 <= 0) return;
-    const handleKeyDown = (event) => {
-      // if (event.key === "Shift" && event.location === 1) {
-      if (event.key === "f") {
-        shootBullet1();
-      // } else if (event.key === "" && event.location === 2) {
-      } else if (event.key === "0") {
-        shootBullet2();
-      }
-    };
+  // useEffect(() => {
+  //   if (health1 <= 0 || health2 <= 0) return;
+  //   const handleKeyDown = (event) => {
+  //     // if (event.key === "Shift" && event.location === 1) {
+  //     if (event.key === "f") {
+  //       shootBullet1();
+  //     // } else if (event.key === "" && event.location === 2) {
+  //     } else if (event.key === "0") {
+  //       shootBullet2();
+  //     }
+  //   };
 
-    window.addEventListener("keydown", handleKeyDown);
+  //   window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [top1, top2, health1, health2]);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [top1, top2, health1, health2]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -191,6 +191,8 @@ const Home = () => {
       if (keysPressed["s"] ) goDown2();
       if (keysPressed["e"] || keysPressed["E"]) setTop1(0);
       if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight);
+      if (keysPressed["f"]) shootBullet1();
+      if (keysPressed["0"]) shootBullet2();
       
       // if (keysPressed["Control"]) shootBullet1();
       console.log(keysPressed);
