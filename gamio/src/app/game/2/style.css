@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+.board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board-row {
+    display: flex;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+    font-family: "Pixelify Sans", sans-serif;
+}
+
+.reset {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.reset:hover{
+    opacity: 80%;
+}
+
+.pixelify-sans {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400px;
+    font-style: normal;
+    animation: bounce 2s ease-in-out infinite, colorChange 10s ease-in-out infinite;
+}
+
+.title{
+    font-size: 100px;
+    padding-left: 50px;
+    padding-top: 15px;
+}
+
+.status{
+    padding-left: 50px;
+    padding-top: 15px;
+    font-size: 30px;
+}
+
+@keyframes bounce {
+0%, 100% {
+    transform: translateY(0);
+}
+50% {
+    transform: translateY(-5px); /* Adjust the distance of bounce */
+}
+}
+
+@keyframes colorChange {
+    0% {
+        color: #f3929c; /* Pastel red */
+    }
+    25% {
+        color: #f6af5e; /* Pastel orange */
+    }
+    50% {
+        color: #ffff51; /* Pastel yellow */
+    }
+    75% {
+        color: #33a6ff; /* Pastel blue */
+    }
+    100% {
+        color: #6bff8b; /* Pastel green */
+    }
+}

@@ -13,7 +13,7 @@ const Card = ({ name, desc, thumbnail, id }) => {
         }}
       >
         <div className="w-full h-[190px] relative">
-          <Image src={thumbnail} layout="fill" objectFit="cover" className="rounded"/>
+          <Image src={thumbnail} layout="fill" objectFit="cover" className="rounded" />
         </div>
         <div className="px-2 pt-1 h-[230px] overflow-auto">
           <h1 className="font-press text-3xl text-center text-orange-600">{name}</h1>
