@@ -71,6 +71,7 @@ const Home = () => {
       if (prev > 10) {
         return prev - 10;
       } else {
+        // console.log(maxHeight + " "+ window.innerHeight + " " + prev);
         return prev;
       }
     });
@@ -82,6 +83,7 @@ const Home = () => {
       if (prev < maxHeight) {
         return prev + 10;
       } else {
+        // console.log(maxHeight + " "+ window.innerHeight + " " + prev);
         return prev;
       }
     });
@@ -144,9 +146,11 @@ const Home = () => {
   useEffect(() => {
     if (health1 <= 0 || health2 <= 0) return;
     const handleKeyDown = (event) => {
-      if (event.key === "Shift" && event.location === 1) {
+      // if (event.key === "Shift" && event.location === 1) {
+      if (event.key === "f") {
         shootBullet1();
-      } else if (event.key === "Shift" && event.location === 2) {
+      // } else if (event.key === "" && event.location === 2) {
+      } else if (event.key === "0") {
         shootBullet2();
       }
     };
@@ -174,7 +178,7 @@ const Home = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [keysPressed]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -184,7 +188,11 @@ const Home = () => {
       if (keysPressed["ArrowDown"]) goDown();
       if (keysPressed["w"] || keysPressed["W"]) goUp2();
       if (keysPressed["s"] || keysPressed["S"]) goDown2();
-
+      if (keysPressed["e"] || keysPressed["E"]) setTop1(50);
+      if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight - 50);
+      
+      // if (keysPressed["Control"]) shootBullet1();
+      console.log(keysPressed);
       setBullets1((prevBullets) =>
         prevBullets.map((bullet) => ({
           ...bullet,
