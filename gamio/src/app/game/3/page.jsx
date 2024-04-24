@@ -141,6 +141,7 @@ const Home = () => {
     overAudioRef.current.currentTime = 0;
     bgAudioRef.current.currentTime = 0;
     bgAudioRef.current.play();
+    setKeysPressed({});
   }
 
   useEffect(() => {
