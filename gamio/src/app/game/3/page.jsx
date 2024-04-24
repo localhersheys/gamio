@@ -186,10 +186,10 @@ const Home = () => {
       const svg2 = svgRef2.current.getBoundingClientRect();
       if (keysPressed["ArrowUp"]) goUp();
       if (keysPressed["ArrowDown"]) goDown();
-      if (keysPressed["w"] || keysPressed["W"]) goUp2();
-      if (keysPressed["s"] || keysPressed["S"]) goDown2();
-      if (keysPressed["e"] || keysPressed["E"]) setTop1(50);
-      if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight - 50);
+      if (keysPressed["w"] ) goUp2();
+      if (keysPressed["s"] ) goDown2();
+      if (keysPressed["e"] || keysPressed["E"]) setTop1(0);
+      if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight);
       
       // if (keysPressed["Control"]) shootBullet1();
       console.log(keysPressed);
