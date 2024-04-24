@@ -306,14 +306,14 @@ const Home = () => {
         <div
           className={`absolute h-[100vh] w-[100vw] z-10 flex flex-col justify-center items-center gap-6`}
         >
-          <p className={`text-7xl text-white font-press text-center ${styles.flashing}`}>
-            Game Over <br />
+          <p className={`text-2xl text-white font-press text-center ${styles.flashing} flex flex-col gap-5`}>
             <span
-              className="text-2xl"
+              className="text-7xl"
               style={{ color: winner === "Orange" ? "orange" : "purple" }}
             >
               {winner === "Orange" ? "Orange wins" : "Purple wins"}
             </span>
+           <br />
           </p>
         <Image src="/reset.png" height={125} width={125} onClick={()=>reset()} className="hover:scale-105 active:scale-95"/>
         </div>
