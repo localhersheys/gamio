@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React,{ useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import restart from '@/components/game/2/restart.png';
 import styles from './style.css'; // Import CSS styles
@@ -8,6 +8,28 @@ const Home = () => {
     const [board, setBoard] = useState(Array(9).fill(null)); // Initialize the board with 9 null values
     const [xIsNext, setXIsNext] = useState(true); // Indicates whether X is next to play
     const [winner, setWinner] = useState(null); // Keeps track of the winner
+    const bgAudioRef = useRef(null);
+
+    const resetAudio = () => {
+        if (bgAudioRef.current) {
+          bgAudioRef.current.pause();
+          bgAudioRef.current.currentTime = 0;
+        }
+      };
+
+    useEffect(() => {
+        resetAudio(); // Reset audio objects
+    
+        const bgAudio = new Audio("/audio/bgaud.mp3");
+        bgAudio.preload = "auto";
+        bgAudio.loop = true;
+        bgAudioRef.current = bgAudio;
+        bgAudio.play();
+    
+        return () => {
+          resetAudio(); // Reset audio objects on unmount
+        };
+      }, []);
 
     const handleClick = (index) => {
         if (board[index] || winner) {
