@@ -4,7 +4,7 @@ const Card2 = ({ name, desc, thumbnail, id }) => {
   return (
     <Link href={`https://silver-toffee-b713df.netlify.app`}>
       <div
-        className="w-[405px] h-[600px] hover:scale-105 px-[70px] pt-[90px] pb-[132px] active:scale-90 "
+        className="w-[405px] h-[600px] hover:scale-105 px-[70px] pt-[90px] active:scale-90 "
         style={{
           backgroundImage: `url(/bgCard.png)`,
           backgroundSize: "cover", // Ensure the image covers the entire div
@@ -15,9 +15,9 @@ const Card2 = ({ name, desc, thumbnail, id }) => {
         <div className="w-full h-[190px] relative">
           <Image src={thumbnail} layout="fill" objectFit="cover" className="rounded"/>
         </div>
-        <div className="px-2 pt-1">
+        <div className="px-2 pt-1 h-[230px] overflow-auto">
           <h1 className="font-press text-3xl text-center text-orange-600">{name}</h1>
-          <p className={`pt-2 overflow-auto h-[28vh] text-sm`}>{desc}</p>
+          <p className={`pt-2 overflow-auto text-sm`}>{desc}</p>
         </div>
         
       </div>
