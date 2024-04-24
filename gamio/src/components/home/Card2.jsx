@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-const Card = ({ name, desc, thumbnail, id }) => {
+const Card2 = ({ name, desc, thumbnail, id }) => {
   return (
-    <Link href={`/game/${encodeURIComponent(id)}`}>
+    <Link href={`https://silver-toffee-b713df.netlify.app`}>
       <div
         className="w-[405px] h-[600px] hover:scale-105 px-[70px] pt-[90px] active:scale-90 "
         style={{
@@ -25,4 +25,4 @@ const Card = ({ name, desc, thumbnail, id }) => {
   );
 };
 
-export default Card;
+export default Card2;
