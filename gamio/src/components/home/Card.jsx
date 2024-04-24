@@ -5,7 +5,7 @@ const Card = ({ name, desc, thumbnail, id }) => {
     <Link href={`/game/${encodeURIComponent(id)}`}>
       
       <div
-        className="w-[405px] h-[600px] hover:scale-105 px-[70px] pt-[90px] pb-[132px] active:scale-90 "
+        className="w-[405px] h-[600px] hover:scale-105 px-[70px] pt-[90px] pb-[150px] active:scale-90 "
         style={{
           backgroundImage: `url(/bgCard.png)`,
           backgroundSize: "cover", // Ensure the image covers the entire div
