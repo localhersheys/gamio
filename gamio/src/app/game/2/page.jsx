@@ -9,7 +9,6 @@ const Home = () => {
     const [xIsNext, setXIsNext] = useState(true); // Indicates whether X is next to play
     const [winner, setWinner] = useState(null); // Keeps track of the winner
     const bgAudioRef = useRef(null);
-
     const resetAudio = () => {
         if (bgAudioRef.current) {
           bgAudioRef.current.pause();
