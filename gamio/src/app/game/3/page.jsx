@@ -189,8 +189,8 @@ const Home = () => {
       if (keysPressed["ArrowDown"]) goDown();
       if (keysPressed["w"] ) goUp2();
       if (keysPressed["s"] ) goDown2();
-      if (keysPressed["e"] || keysPressed["E"]) setTop1(0);
-      if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight);
+      // if (keysPressed["e"] || keysPressed["E"]) setTop1(0);
+      // if (keysPressed["q"] || keysPressed["Q"]) setTop1(window.innerHeight);
       // if (keysPressed["f"]) shootBullet1();
       // if (keysPressed["0"]) shootBullet2();
       
